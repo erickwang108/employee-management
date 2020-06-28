@@ -83,11 +83,15 @@
     "boilerplate",
     "react",
     "mobx",
-    "sass",
+    "css",
+    "less",
     "sqlite3",
     "webpack",
     "antd",
-    "employee"
+    "excel",
+    "employee",
+    "management",
+    "styled-components"
   ],
   "homepage": "",
   "devDependencies": {
