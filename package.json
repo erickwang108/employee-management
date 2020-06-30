@@ -21,7 +21,7 @@
     "postinstall": "yarn build-dll && electron-builder install-app-deps && opencollective-postinstall",
     "precommit": "lint-staged",
     "prestart": "yarn build",
-    "start": "cross-env NODE_ENV=production electron ./app/",
+    "start": "cross-env NODE_ENV=production electron ./app/main.prod.js",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./app/main.dev.js",
     "start-renderer-dev": "cross-env NODE_ENV=development webpack-dev-server --config ./internals/webpack/dev.babel.js",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
