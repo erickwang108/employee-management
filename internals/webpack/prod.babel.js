@@ -4,14 +4,14 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import baseConfig from './base';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 
 CheckNodeEnv('production');
 
 export default merge.smart(baseConfig, {
-  devtool: 'source-map',
+  devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
 
   mode: 'production',
 
@@ -62,7 +62,7 @@ export default merge.smart(baseConfig, {
     minimizer: process.env.E2E_BUILD
       ? []
       : [
-        new UglifyJSPlugin({
+        new TerserPlugin({
           parallel: true,
           sourceMap: true,
           cache: true,
@@ -79,15 +79,6 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     */
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
     }),

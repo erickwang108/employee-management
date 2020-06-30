@@ -110,7 +110,7 @@ export default function PageConfig() {
           disabled={errors.length > 0}
           onClick={async () => {
             await onSaveConfig();
-            history.push('/');
+            history.push('/company');
           }}
         >
           保存
@@ -120,7 +120,7 @@ export default function PageConfig() {
             margin: '0 8px',
           }}
           onClick={() => {
-            history.push('/');
+            history.push('/company');
           }}
         >
           取消

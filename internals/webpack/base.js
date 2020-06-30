@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import { dependencies } from '../../package.json';
+import { dependencies } from '../../app/package.json';
 
 export default {
   externals: [...Object.keys(dependencies || {})],
