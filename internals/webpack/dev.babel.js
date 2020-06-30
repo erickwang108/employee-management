@@ -9,7 +9,9 @@ import { spawn, execSync } from 'child_process';
 import baseConfig from './base';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 
-CheckNodeEnv('development');
+if (process.env.NODE_ENV === 'production') {
+  CheckNodeEnv('development');
+}
 
 const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
@@ -26,7 +28,7 @@ if (!requiredByDLLConfig && !(fs.existsSync(dll) && fs.existsSync(manifest))) {
 }
 
 export default merge.smart(baseConfig, {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
 
   mode: 'development',
 
@@ -36,7 +38,7 @@ export default merge.smart(baseConfig, {
     // 'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${port}/`,
     'webpack/hot/only-dev-server',
-    require.resolve('../../app'),
+    require.resolve('../../app/index.js'),
   ],
 
   output: {
@@ -79,6 +81,12 @@ export default merge.smart(baseConfig, {
         }],
       },
     ],
+  },
+
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
 
   plugins: [
@@ -126,7 +134,7 @@ export default merge.smart(baseConfig, {
     port,
     publicPath,
     compress: true,
-    noInfo: true,
+    noInfo: false,
     stats: 'errors-only',
     inline: true,
     lazy: false,

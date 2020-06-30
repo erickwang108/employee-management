@@ -55,7 +55,7 @@ export default function PageConfig() {
     if (configData.dbPath === '') {
       const filePath = dialog.showSaveDialogSync(null, {
         title: '数据库位置',
-        defaultPath: `${app.getPath('documents')}/data.db`,
+        defaultPath: `${app.getPath('documents')}/employee-database.sqlite`,
         properties: ['openFile'],
       });
 
@@ -68,7 +68,7 @@ export default function PageConfig() {
       const filePaths = dialog.showOpenDialogSync(null, {
         title: '数据库文件路径',
         filters: [
-          { name: 'sqlite3', extensions: ['db'] },
+          { name: 'sqlite3', extensions: ['sqlite'] },
           { name: '所有文件', extensions: ['*'] },
         ],
         properties: ['openFile'],

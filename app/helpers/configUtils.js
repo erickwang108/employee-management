@@ -4,10 +4,10 @@ const { app } = require('electron').remote;
 
 const store = new Store();
 
-// store.clear();
+store.clear();
 
 export function getDefaultDbPath() {
-  return `${app.getAppPath()}/data.db`;
+  return `${app.getAppPath()}/employee-database.sqlite`;
 }
 
 const DEF_CONFIG = {

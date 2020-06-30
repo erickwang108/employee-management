@@ -1,4 +1,7 @@
-import 'babel-polyfill';
+import '@babel/polyfill';
+import '@fortawesome/fontawesome-free/css/all.css';
+import 'antd/dist/antd.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MobXProviderContext } from 'mobx-react';
@@ -6,9 +9,6 @@ import { HashRouter } from 'react-router-dom';
 
 import AppStore from 'stores';
 import App from './containers/App';
-
-import '@fortawesome/fontawesome-free/css/all.css';
-import 'antd/dist/antd.css';
 
 const appStore = new AppStore();
 const stores = appStore.getStores();
