@@ -3,6 +3,10 @@ import webpack from 'webpack';
 import { dependencies } from '../../app/package.json';
 
 export default {
+  mode: 'development',
+
+  target: 'electron-renderer',
+
   externals: [...Object.keys(dependencies || {})],
 
   module: {
