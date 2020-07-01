@@ -117,6 +117,11 @@ export default function PageEmployee() {
               onClick={() => {
                 const filename = dialog.showSaveDialogSync(null, {
                   defaultPath: `${app.getPath('documents')}/${moment().format('YYYYMMDDHHMM')}.xlsx`,
+                  filters: [
+                    { name: 'Excel workbook (.xlsx)', extensions: ['xlsx'] },
+                    { name: 'Excel 97-2004 workbook (.xls)', extensions: ['xls'] },
+                    { name: 'All', extensions: ['*'] },
+                  ],
                 });
                 onSaveFile(filename);
               }}
