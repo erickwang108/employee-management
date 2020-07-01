@@ -22,19 +22,14 @@ function appState() {
   }));
 }
 
-export default function SelectBaseData(props) {
-  const {
-    id,
-    type,
-    formLabel,
-  } = props;
-
+export default function SelectBaseData({ id, type, formLabel }) {
   const {
     tmpData,
     baseDataMap,
     onUpdateTmpData,
   } = appState();
-  const [filterList, setFilterList] = useState(baseDataMap[type] || []);
+  const srcDataList = baseDataMap[type] || [];
+  const [filterList, setFilterList] = useState(srcDataList);
 
   if (!tmpData) {
     return null;
@@ -50,7 +45,10 @@ export default function SelectBaseData(props) {
       filterOption={false}
       value={selectValue}
       onChange={(val) => { onUpdateTmpData(id, val); }}
-      onSearch={(val) => { setFilterList(filterList.map(({ name }) => name.includes(val))); }}
+      onSearch={(val) => {
+        const nextList = val ? srcDataList.filter(({ name }) => name.includes(val)) : srcDataList;
+        setFilterList(nextList);
+      }}
     >
       {filterList.map((item) => (
         <Option key={item.id} value={item.id}>{item.name}</Option>

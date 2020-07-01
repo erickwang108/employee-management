@@ -115,11 +115,10 @@ export default function PageEmployee() {
             <Button
               icon={<DownloadOutlined />}
               onClick={() => {
-                dialog.showSaveDialog(null, {
+                const filename = dialog.showSaveDialogSync(null, {
                   defaultPath: `${app.getPath('documents')}/${moment().format('YYYYMMDDHHMM')}.xlsx`,
-                }, (filename) => {
-                  onSaveFile(filename);
                 });
+                onSaveFile(filename);
               }}
             >
               下载

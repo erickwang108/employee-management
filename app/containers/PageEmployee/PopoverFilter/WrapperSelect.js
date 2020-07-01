@@ -21,20 +21,14 @@ function appState() {
   }));
 }
 
-export default function WrapperSelect(props) {
-  const {
-    id,
-    type,
-    formLabel,
-  } = props;
-
+export default function WrapperSelect({ id, type, formLabel }) {
   const {
     filterData,
     baseDataMap,
     onUpdateFilterData,
   } = appState();
-
-  const [filterList, setFilterList] = useState(baseDataMap[type] || []);
+  const srcDataList = baseDataMap[type] || [];
+  const [filterList, setFilterList] = useState(srcDataList);
 
   const component = (
     <Select
@@ -43,8 +37,11 @@ export default function WrapperSelect(props) {
       optionFilterProp="name"
       value={[filterData[id]]}
       onChange={(val) => { onUpdateFilterData(id, val); }}
-      onSearch={(val) => { setFilterList(filterList.map(({ name }) => name.includes(val))); }}
       filterOption={false}
+      onSearch={(val) => {
+        const nextList = val ? srcDataList.filter(({ name }) => name.includes(val)) : srcDataList;
+        setFilterList(nextList);
+      }}
     >
       <Option value={0}>全部</Option>
       {filterList.map((item) => (
