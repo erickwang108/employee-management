@@ -41,7 +41,7 @@ export default class ConfigStore {
     const { dbPath } = configData;
     this.errors = [];
 
-    if (!dbPath || !/.db$/.test(dbPath)) {
+    if (!dbPath || !/.sqlite$/.test(dbPath)) {
       this.errors = [{
         key: 'dbPath',
         msg: '数据库路径不正确,请检查!',
@@ -52,7 +52,6 @@ export default class ConfigStore {
   @action
   onUpdateData = (key, value) => {
     this.configData = mergeValue(this.configData, key, value);
-    console.log(this.configData.dbPath)
   };
 
   @action

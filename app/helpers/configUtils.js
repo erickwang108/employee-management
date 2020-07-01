@@ -7,7 +7,7 @@ const store = new Store();
 // store.clear();
 
 export function getDefaultDbPath() {
-  return `${app.getAppPath()}/data.db`;
+  return `${app.getAppPath()}/employee-database.sqlite`;
 }
 
 const DEF_CONFIG = {

@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import { dependencies } from '../../package.json';
+import { dependencies } from '../../app/package.json';
 
 export default {
   externals: [...Object.keys(dependencies || {})],
@@ -80,7 +80,6 @@ export default {
 
   output: {
     path: path.join(__dirname, '..', 'app'),
-    // https://github.com/webpack/webpack/issues/1114
     libraryTarget: 'commonjs2',
   },
 
