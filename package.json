@@ -78,6 +78,15 @@
     },
     "publish": null
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erickwang108/employee-management.git"
+  },
+  "author": {
+    "name": "Erick Wang",
+    "email": "erickwang108@gmail.com",
+    "url": ""
+  },
   "license": "MIT",
   "keywords": [
     "electron",
