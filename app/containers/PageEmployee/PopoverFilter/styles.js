@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FilterContainer = styled.div`
-  padding: 0 12px;
+  padding: 0 2px;
   background-color: white;
   .ant-form-item {
     margin-bottom: 8px;

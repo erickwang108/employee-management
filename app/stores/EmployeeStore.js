@@ -51,6 +51,12 @@ const DEF_FILTER_DATA = {
   hireDateRange: ['2009-01-01', moment().format(DATE_FORMAT)], // 入职日期
 };
 
+const DEF_PAGINATION = {
+  current: 1,
+  pageSize: 8,
+  total: 0,
+};
+
 export default class EmployeeStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -79,15 +85,15 @@ export default class EmployeeStore {
 
   @observable baseDataMap = {};
 
+  @observable notifiContent = null;
+
   @observable dataState = {
     loading: true,
     list: [],
   };
 
   @observable pagination = {
-    current: 1,
-    pageSize: 8,
-    total: 0,
+    ...DEF_PAGINATION,
   };
 
   @observable filters = {
@@ -95,8 +101,8 @@ export default class EmployeeStore {
   };
 
   @observable sorter = {
-    field: 'employeeName',
-    order: 'ascend',
+    field: 'employeeUpdateDate',
+    order: 'descent',
   };
 
   @observable selectOptions = {
@@ -148,6 +154,11 @@ export default class EmployeeStore {
   @action
   onResetTmpData = () => {
     this.tmpData = null;
+  };
+
+  @action
+  onClearNotifi = () => {
+    this.notifiContent = null;
   };
 
   @action
@@ -241,6 +252,9 @@ export default class EmployeeStore {
   };
 
   onFilterList = () => {
+    this.pagination = {
+      ...DEF_PAGINATION,
+    };
     this.showFilter = false;
     this.getList();
   };
@@ -268,141 +282,163 @@ export default class EmployeeStore {
       nationId,
     } = this.tmpData;
 
-    const age = calAge(birthday);
-    const tm = getDate();
+    try {
+      const age = calAge(birthday);
+      const tm = getDate();
 
-    if (employeeId) {
-      await exec(
-        `UPDATE
-          employee
-        SET
-          employeeName=$employeeName,
-          contact=$contact,
-          remark=$remark,
-          sex=$sex,
-          maritalStatus=$maritalStatus,
-          hireDate=$hireDate,
-          birthday=$birthday,
-          age=$age,
-          deptId=$deptId,
-          companyId=$companyId,
-          dutyId=$dutyId,
-          partyId=$partyId,
-          educationId=$educationId,
-          graduateId=$graduateId,
-          majorId=$majorId,
-          workTypeId=$workTypeId,
-          employmentFormId=$employmentFormId,
-          nationId=$nationId,
-          updateDate=$updateDate
-        WHERE employeeId=$employeeId
-      `,
-        {
-          $employeeName: employeeName,
-          $contact: contact,
-          $remark: remark,
-          $sex: sex,
-          $maritalStatus: maritalStatus,
-          $hireDate: hireDate,
-          $birthday: birthday,
-          $age: age,
-          $deptId: deptId,
-          $companyId: companyId,
-          $dutyId: dutyId,
-          $partyId: partyId,
-          $educationId: educationId,
-          $graduateId: graduateId,
-          $majorId: majorId,
-          $workTypeId: workTypeId,
-          $employmentFormId: employmentFormId,
-          $nationId: nationId,
-          $updateDate: tm,
-          $employeeId: employeeId,
-        },
-      );
-    } else {
-      await exec(
-        `INSERT INTO
-          employee (
-            employeeName,
-            contact,
-            remark,
-            sex,
-            maritalStatus,
-            hireDate,
-            birthday,
-            age,
-            deptId,
-            companyId,
-            dutyId,
-            partyId,
-            educationId,
-            graduateId,
-            majorId,
-            workTypeId,
-            employmentFormId,
-            nationId,
-            createDate,
-            updateDate
+      if (employeeId) {
+        await exec(
+          `UPDATE
+            employee
+          SET
+            employeeName=$employeeName,
+            contact=$contact,
+            remark=$remark,
+            sex=$sex,
+            maritalStatus=$maritalStatus,
+            hireDate=$hireDate,
+            birthday=$birthday,
+            age=$age,
+            deptId=$deptId,
+            companyId=$companyId,
+            dutyId=$dutyId,
+            partyId=$partyId,
+            educationId=$educationId,
+            graduateId=$graduateId,
+            majorId=$majorId,
+            workTypeId=$workTypeId,
+            employmentFormId=$employmentFormId,
+            nationId=$nationId,
+            updateDate=$updateDate
+          WHERE employeeId=$employeeId
+        `,
+          {
+            $employeeName: employeeName,
+            $contact: contact,
+            $remark: remark,
+            $sex: sex,
+            $maritalStatus: maritalStatus,
+            $hireDate: hireDate,
+            $birthday: birthday,
+            $age: age,
+            $deptId: deptId,
+            $companyId: companyId,
+            $dutyId: dutyId,
+            $partyId: partyId,
+            $educationId: educationId,
+            $graduateId: graduateId,
+            $majorId: majorId,
+            $workTypeId: workTypeId,
+            $employmentFormId: employmentFormId,
+            $nationId: nationId,
+            $updateDate: tm,
+            $employeeId: employeeId,
+          },
+        );
+      } else {
+        await exec(
+          `INSERT INTO
+            employee (
+              employeeName,
+              contact,
+              remark,
+              sex,
+              maritalStatus,
+              hireDate,
+              birthday,
+              age,
+              deptId,
+              companyId,
+              dutyId,
+              partyId,
+              educationId,
+              graduateId,
+              majorId,
+              workTypeId,
+              employmentFormId,
+              nationId,
+              createDate,
+              updateDate
+            )
+          VALUES (
+            $employeeName,
+            $contact,
+            $remark,
+            $sex,
+            $maritalStatus,
+            $hireDate,
+            $birthday,
+            $age,
+            $deptId,
+            $companyId,
+            $dutyId,
+            $partyId,
+            $educationId,
+            $graduateId,
+            $majorId,
+            $workTypeId,
+            $employmentFormId,
+            $nationId,
+            $createDate,
+            $updateDate
           )
-        VALUES (
-          $employeeName,
-          $contact,
-          $remark,
-          $sex,
-          $maritalStatus,
-          $hireDate,
-          $birthday,
-          $age,
-          $deptId,
-          $companyId,
-          $dutyId,
-          $partyId,
-          $educationId,
-          $graduateId,
-          $majorId,
-          $workTypeId,
-          $employmentFormId,
-          $nationId,
-          $createDate,
-          $updateDate
-        )
-      `,
-        {
-          $employeeName: employeeName,
-          $contact: contact,
-          $remark: remark,
-          $sex: sex,
-          $maritalStatus: maritalStatus,
-          $hireDate: hireDate,
-          $birthday: birthday,
-          $age: age,
-          $deptId: deptId,
-          $companyId: companyId,
-          $dutyId: dutyId,
-          $partyId: partyId,
-          $educationId: educationId,
-          $graduateId: graduateId,
-          $majorId: majorId,
-          $workTypeId: workTypeId,
-          $employmentFormId: employmentFormId,
-          $nationId: nationId,
-          $createDate: tm,
-          $updateDate: tm,
-        },
-      );
+        `,
+          {
+            $employeeName: employeeName,
+            $contact: contact,
+            $remark: remark,
+            $sex: sex,
+            $maritalStatus: maritalStatus,
+            $hireDate: hireDate,
+            $birthday: birthday,
+            $age: age,
+            $deptId: deptId,
+            $companyId: companyId,
+            $dutyId: dutyId,
+            $partyId: partyId,
+            $educationId: educationId,
+            $graduateId: graduateId,
+            $majorId: majorId,
+            $workTypeId: workTypeId,
+            $employmentFormId: employmentFormId,
+            $nationId: nationId,
+            $createDate: tm,
+            $updateDate: tm,
+          },
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      this.notifiContent = employeeId ? '更新失败' : '创建失败';
     }
 
     this.getList();
-
     this.tmpData = null;
   };
 
   @action
-  onChangeData = (pagination, filters, sorter) => {
+  onChangeData = (pagination, filters) => {
     this.pagination = pagination;
     this.filters = filters;
-    this.sorter = sorter;
+
+    this.getList();
+  };
+
+  @action
+  onSorter = (field) => {
+    if (field === this.sorter.field) {
+      this.sorter = {
+        ...this.sorter,
+        order: this.sorter.order === 'ascend' ? 'descent' : 'ascend',
+      };
+    } else {
+      this.sorter = {
+        field,
+        order: 'ascend',
+      };
+    }
+
+    this.pagination = { ...DEF_PAGINATION };
 
     this.getList();
   };
@@ -544,7 +580,6 @@ export default class EmployeeStore {
 
     const params = {
       ...payload.params,
-      $sorter: `${field} ${order === 'ascend' ? 'ASC' : 'DESC'}`,
     };
 
     if (usePagination) {
@@ -582,7 +617,7 @@ export default class EmployeeStore {
             LEFT JOIN baseData b7 ON e.employmentFormId = b7.id
             LEFT JOIN baseData b8 ON e.nationId = b8.id
           ${payload.fields.length > 0 ? `WHERE ${payload.fields.join(' AND ')}` : ''}
-          ORDER BY $sorter
+          ORDER BY ${field} ${order === 'ascend' ? 'ASC' : 'DESC'}
           ${usePagination ? `LIMIT $limit OFFSET $offset` : ''}
         `,
         params,

@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons';
 
 import { appStores } from 'stores';
+import SortItem from './SortItem';
 import DetailPanel from './DetailPanel';
 import DeleteButton from './DeleteButton';
 import { ButtonsContainer } from './styles';
@@ -44,13 +45,15 @@ export default function TableData() {
   const columns = [{
     title: '索引',
     key: 'index',
+    align: 'left',
     dataIndex: 'index',
     render: (text, item, index) => {
       return (pagination.pageSize * (pagination.current - 1)) + index + 1;
     },
   }, {
-    title: '姓名',
+    title: <SortItem column="employeeName">姓名</SortItem>,
     key: 'employeeName',
+    align: 'left',
     dataIndex: 'employeeName',
     render(text, record) {
       return (
@@ -64,47 +67,40 @@ export default function TableData() {
       );
     },
   }, {
-    title: '性别',
-    key: 'sex',
-    dataIndex: 'sex',
-    render: (text = '') => {
-      return text === 1 ? '男' : '女';
-    },
-  }, {
-    title: '民族',
-    key: 'nationId',
-    dataIndex: 'nationId',
-    render: (text, row) => {
-      return row.nationName;
-    },
-  }, {
-    title: '婚姻状况',
+    title: <SortItem column="maritalStatus">婚姻状况</SortItem>,
     key: 'maritalStatus',
+    align: 'left',
     dataIndex: 'maritalStatus',
     render: (text = '') => {
       return text === 1 ? '已婚' : '未婚';
     },
   }, {
-    title: '政治面貌',
+    title: <SortItem column="partyName">政治面貌</SortItem>,
     align: 'left',
     key: 'partyName',
     dataIndex: 'partyName',
   }, {
-    title: '工时制',
+    title: <SortItem column="workTypeName">工时制</SortItem>,
     align: 'left',
     dataIndex: 'workTypeName',
   }, {
-    title: '用工方式',
+    title: <SortItem column="employmentFormName">用工方式</SortItem>,
     align: 'left',
     dataIndex: 'employmentFormName',
   }, {
-    title: '公司',
+    title: <SortItem column="educationName">学历</SortItem>,
+    key: 'educationName',
+    dataIndex: 'educationName',
     align: 'left',
+  }, {
+    title: <SortItem column="companyName">公司</SortItem>,
+    align: 'left',
+    dataIndex: 'companyName',
     render: (text, row) => {
       return row.companyName;
     },
   }, {
-    title: '更新时间',
+    title: <SortItem column="employeeUpdateDate">更新时间</SortItem>,
     dataIndex: 'employeeUpdateDate',
     key: 'employeeUpdateDate',
     render: (text = '') => {

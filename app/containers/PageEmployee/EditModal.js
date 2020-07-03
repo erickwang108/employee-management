@@ -102,16 +102,18 @@ export default function EditModal() {
               </Form.Item>
               <Form.Item label="出生日期">
                 <DatePicker
+                  inputReadOnly
                   format={DATE_FORMAT}
                   value={tmpData.birthday ? moment(tmpData.birthday) : moment()}
-                  onChange={(md, date) => { onUpdateTmpData('birthday', date); }}
+                  onChange={(md) => { onUpdateTmpData('birthday', md.format(DATE_FORMAT)); }}
                 />
               </Form.Item>
               <Form.Item label="入职日期">
                 <DatePicker
+                  inputReadOnly
                   format={DATE_FORMAT}
                   value={tmpData.hireDate ? moment(tmpData.hireDate) : moment()}
-                  onChange={(md, date) => { onUpdateTmpData('hireDate', date); }}
+                  onChange={(md) => { onUpdateTmpData('hireDate', md.format(DATE_FORMAT)); }}
                 />
               </Form.Item>
               <SelectBaseData id="nationId" type={ITEM_NATION} formLabel="民族" />

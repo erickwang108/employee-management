@@ -5,6 +5,7 @@ import {
   Tooltip,
   Button,
   Input,
+  notification,
 } from 'antd';
 import {
   FileSearchOutlined,
@@ -40,9 +41,11 @@ function appState() {
     filterData: employeeStore.filterData,
     pagination: employeeStore.pagination,
     getList: employeeStore.getList,
+    notifiContent: employeeStore.notifiContent,
     selectedIdList: employeeStore.selectedIdList,
     onAddItem: employeeStore.onAddItem,
     onSaveFile: employeeStore.onSaveFile,
+    onClearNotifi: employeeStore.onClearNotifi,
     onFilterData: employeeStore.onFilterData,
     onDeleteItems: employeeStore.onDeleteItems,
     onFilterList: employeeStore.onFilterList,
@@ -58,7 +61,9 @@ export default function PageEmployee() {
     pagination,
     selectedIdList,
     onSaveFile,
+    notifiContent,
     onAddItem,
+    onClearNotifi,
     onFilterList,
     onDeleteItems,
     onResetFilterData,
@@ -69,6 +74,17 @@ export default function PageEmployee() {
     onResetFilterData();
     getList();
   }, []);
+
+  useEffect(() => {
+    if (notifiContent) {
+      notification.open({
+        duration: 2,
+        message: '消息',
+        description: notifiContent,
+        onClose: onClearNotifi,
+      });
+    }
+  }, [notifiContent]);
 
   return (
     <Container>
@@ -109,7 +125,7 @@ export default function PageEmployee() {
         </TableCenterContainer>
         <TableHeaderRightContainer>
           <Tooltip placement="bottom" title="点击添加员工">
-            <Button icon={<PlusCircleOutlined />} onClick={onAddItem}>新增</Button>
+            <Button type="primary" icon={<PlusCircleOutlined />} onClick={onAddItem}>新增</Button>
           </Tooltip>
           <Tooltip placement="bottom" title="下载/导出查询结果">
             <Button

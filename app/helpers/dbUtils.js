@@ -92,19 +92,11 @@ export function exec(sql, params = {}) {
   return new Promise((resolve, reject) => {
     const db = getDb();
 
-    let data = null;
-
-    db.get(sql, params, (err, row) => {
+    db.run(sql, params, (err, row) => {
       if (err) {
         reject(err);
       } else {
-        data = row;
-      }
-    }, (e) => {
-      if (e) {
-        reject(e);
-      } else {
-        resolve(data);
+        resolve(row);
       }
     });
 
