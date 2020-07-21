@@ -22,9 +22,9 @@ import pkg from 'package.json';
 import {
   Container,
   LogoImage,
-  TopLeftCornerContainer,
   LoadingContainer,
   VersionContainer,
+  TopLeftCornerContainer,
 } from './styles';
 
 moment.locale('zh-cn');
