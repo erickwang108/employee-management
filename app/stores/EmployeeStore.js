@@ -28,8 +28,8 @@ const DEF_DATA = {
   sex: 0, // 性别: 0 - 全部, 1 - 男, 2 - 女
   maritalStatus: 0, // 婚姻状况 0 - 全部, 1 - 已婚, 2 - 未婚
 
-  hireDate: moment().subtract(10, 'years').format(DATE_FORMAT), // 入职日期
-  birthday: moment().subtract(18, 'years').format(DATE_FORMAT), // 出生日期
+  hireDate: moment().subtract(50, 'years').format(DATE_FORMAT), // 入职日期
+  birthday: moment().subtract(65, 'years').format(DATE_FORMAT), // 出生日期
   age: 0, // 年龄
   deptId: 0, // 部门
   companyId: 0, // 企业
@@ -48,7 +48,7 @@ const DEF_DATA = {
 const DEF_FILTER_DATA = {
   ...DEF_DATA,
   birthdayRange: ['1950-01-01', moment().format(DATE_FORMAT)], // 出生日期
-  hireDateRange: ['2009-01-01', moment().format(DATE_FORMAT)], // 入职日期
+  hireDateRange: ['1950-01-01', moment().format(DATE_FORMAT)], // 入职日期
 };
 
 const DEF_PAGINATION = {
@@ -281,8 +281,6 @@ export default class EmployeeStore {
       employmentFormId,
       nationId,
     } = this.tmpData;
-
-    console.log(this.tmpData);
 
     try {
       const age = calAge(birthday);

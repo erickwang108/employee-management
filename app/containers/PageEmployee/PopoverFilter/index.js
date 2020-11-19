@@ -107,14 +107,14 @@ export default function PopoverFilter() {
             </Form.Item>
             <Form.Item label="出生日期">
               <RangePicker
-                value={toMoments(filterData.hireDateRange)}
-                onChange={(m, ranges) => { onUpdateFilterData('hireDateRange', ranges); }}
+                value={toMoments(filterData.birthdayRange)}
+                onChange={(m, ranges) => { onUpdateFilterData('birthdayRange', ranges); }}
               />
             </Form.Item>
             <Form.Item label="入职日期">
               <RangePicker
-                value={toMoments(filterData.birthdayRange)}
-                onChange={(m, ranges) => { onUpdateFilterData('birthdayRange', ranges); }}
+                value={toMoments(filterData.hireDateRange)}
+                onChange={(m, ranges) => { onUpdateFilterData('hireDateRange', ranges); }}
               />
             </Form.Item>
             <WrapperSelect id="nationId" type={ITEM_NATION} formLabel="民族" />
